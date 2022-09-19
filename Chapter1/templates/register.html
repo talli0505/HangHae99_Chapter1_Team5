@@ -23,44 +23,62 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <style>
         .register-but {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+
             margin-top: 50px;
-            margin-left: 50px;
         }
         .box > p {
             font-size: 40px;
             text-align: center;
             font-family: 'Jua', sans-serif;
         }
+        .mail {
+            display: flex;
+            flex-direction: row;
+            justify-content: left;
+            align-items: center;
+
+        }
+        .content > hr {
+            margin: 50px auto 30px auto;
+        }
+
 
 
     </style>
     <script>
+        // $(document).ready(function () {
+        // open_toggle()
+        // })
+
+
         document.addEventListener('DOMContentLoaded', () => {
             // Functions to open and close a modal
-            function openModal($el) {
-                $el.classList.add('is-active');
-            }
+            // function openModal($el) {
+            //     $el.classList.add('is-active');
+            // }
 
             function closeModal($el) {
                 $el.classList.remove('is-active');
             }
 
-            function closeAllModals() {
-                (document.querySelectorAll('.modal') || []).forEach(($modal) => {
-                    closeModal($modal);
-                });
-            }
-
+            // function closeAllModals() {
+            //     (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+            //         closeModal($modal);
+            //     });
+            // }
             // Add a click event on buttons to open a specific modal
-            (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
-                const modal = $trigger.dataset.target;
-                const $target = document.getElementById(modal);
-
-                $trigger.addEventListener('click', () => {
-                    openModal($target);
-                });
-            });
-
+            // (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+            //     const modal = $trigger.dataset.target;
+            //     const $target = document.getElementById(modal);
+            //
+            //     $trigger.addEventListener('click', () => {
+            //         openModal($target);
+            //     });
+            // });
             // Add a click event on various child elements to close the parent modal
             (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
                 const $target = $close.closest('.modal');
@@ -70,21 +88,30 @@
                 });
             });
 
-            // Add a keyboard event to close all modals
-            document.addEventListener('keydown', (event) => {
-                const e = event || window.event;
-
-                if (e.keyCode === 27) { // Escape key
-                    closeAllModals();
-                }
-            });
+            // // Add a keyboard event to close all modals
+            // document.addEventListener('keydown', (event) => {
+            //     const e = event || window.event;
+            //
+            //     if (e.keyCode === 27) { // Escape key
+            //         closeAllModals();
+            //     }
+            // });
         });
+
+        function open_toggle() {
+            $('#modal-js-example').toggleClass("is-active")
+        }
+
+        function close_toggle() {
+            $('#modal-js-example').toggleClass("is-hidden")
+            window.location.reload()
+        }
 
     </script>
     </head>
     <body>
     <div class="register-but">
-      <button class="js-modal-trigger" data-target="modal-js-example">회원가입</button>
+      <button onclick="open_toggle()" class="js-modal-trigger" data-target="modal-js-example">회원가입</button>
     </div>
 
     <div id="modal-js-example" class="modal">
@@ -94,73 +121,86 @@
     <div class="box">
       <p>회원가입🎶</p>
         <hr>
-    <section class="section">
-    <div class="container">
-            <article class="media">
-                <div class="media-content">
-                    <div class="content">
-                        <div class="field has-addons">
-                            <div class="control has-icons-left" style="width:100%">
-                                <input id="input-username" class="input" type="text" placeholder="아이디">
-                                <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
-                            </div>
-                            <div id="btn-check-dup" class="control">
-                                <button class="button is-sparta" onclick="check_dup()">중복확인</button>
-                            </div>
-
-                        </div>
-                        <p id="help-id" class="help">아이디는 2-10자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능합니다.</p>
-                        <p id="help-id-login" class="help is-danger"></p>
-
-                        <div class="field">
-                            <div class="control has-icons-left">
-                                <input id="input-password" class="input" type="password" placeholder="비밀번호">
-                                <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
-                            </div>
-                            <p id="help-password" class="help">영문과 숫자 조합의 8-20자의 비밀번호를 설정해주세요. 특수문자(!@#$%^&*)도
-                                사용 가능합니다.</p>
-                        </div>
-
-                        <div class="mb-5">
-                            <div class="field">
+        <section class="section">
+            <div class="container">
+                <article class="media">
+                    <div class="media-content">
+                        <div class="content">
+                            <div class="field has-addons">
                                 <div class="control has-icons-left" style="width:100%">
-                                    <input id="input-password2" class="input" type="password"
-                                           placeholder="비밀번호 재입력">
+                                    <input id="input-username" class="input" type="text" placeholder="아이디">
+                                    <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
+                                </div>
+                                <div id="btn-check-dup" class="control">
+                                    <button class="button is-sparta" onclick="check_dup()">중복확인</button>
+                                </div>
+
+                            </div>
+                            <p id="help-id" class="help">아이디는 2-10자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능합니다.</p>
+                            <p id="help-id-login" class="help is-danger"></p>
+
+                            <div class="field">
+                                <div class="control has-icons-left">
+                                    <input id="input-password" class="input" type="password" placeholder="비밀번호">
                                     <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
                                 </div>
-                                <p id="help-password2" class="help">비밀번호를 다시 한 번 입력해주세요.</p>
-
+                                <p id="help-password" class="help">영문과 숫자 조합의 8-20자의 비밀번호를 설정해주세요. 특수문자(!@#$%^&*)도
+                                    사용 가능합니다.</p>
                             </div>
-                        </div>
-                        <div class="control has-icons-left has-icons-right">
-                            <input class="input" type="email" placeholder="Email">
-                            <span class="icon is-small is-left">
-                            <i class="fas fa-envelope"></i>
-                            </span>
+
+                            <div class="mb-5">
+                                <div class="field">
+                                    <div class="control has-icons-left" style="width:100%">
+                                        <input id="input-password2" class="input" type="password"
+                                               placeholder="비밀번호 재입력">
+                                        <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
+                                    </div>
+                                    <p id="help-password2" class="help">비밀번호를 다시 한 번 입력해주세요.</p>
+
+                                </div>
+                            </div>
+                            <div class="field">
+                                <div class="mail">
+                                    <p class="control has-icons-left">
+                                        <input class="input" type="email" placeholder="Email" style="width: 45%">
+                                        <span class="icon is-small is-left">
+                                  <i class="fa fa-envelope"></i>
+                                </span>
+                                        <input class="input" type="text" placeholder="직접입력" style="width: 40%">
+
+                                        <button class="button is-right">확인</button>
+                                    </p>
+                                </div>
+                                <p id="help-email" class="help">올바른 이메일 형식을 입력해주세요.(직접입력란에 @ 포함하여 입력)</p>
+                            </div>
+
+                            <div class="mb-5">
+                                <div class="field">
+                                    <div class="control has-icons-left" style="width:100%">
+                                        <input id="input-phone" class="input" type="text"
+                                               placeholder="전화번호">
+                                        <span class="icon is-small is-left"><i class="fa fa-phone"></i></span>
+                                    </div>
+                                    <p id="help-phone" class="help">'-' 을 제외한 숫자만 입력해주세요.</p>
+
+                                </div>
+                            </div>
+                            <hr>
+
+
+                            <nav class="level is-mobile">
+                                <button class="level-item button is-sparta" onclick="sign_up()">
+                                    회원가입
+                                </button>
+                                <button class="level-item button is-sparta is-outlined" onclick="close_toggle()">
+                                    취소
+                                </button>
+                            </nav>
 
                         </div>
-
-
-                        <nav class="level is-mobile">
-                            <button class="level-item button is-sparta" onclick="sign_up()">
-                                회원가입
-                            </button>
-                            <button class="level-item button is-sparta is-outlined" onclick="toggle_sign_up()">
-                                취소
-                            </button>
-                        </nav>
-
-
-
-                </div>
-            </article>
-        </div>
-
-
-</section>
-
-
-
+                </article>
+            </div>
+        </section>
 
     </div>
   </div>
