@@ -24,7 +24,7 @@ def detail():
     return render_template("comment.html")
 
 
-@app.route('/comment', methods=['POST'])
+@app.route('/comment/content', methods=['POST'])
 def save_comment():
     nickname_receive = request.form["nickname_give"]
     comment_receive = request.form["comment_give"]
@@ -42,11 +42,18 @@ def save_comment():
     return jsonify({'msg': '등록 완료!'})
 
 
-@app.route("/comment", methods=["GET"])
+@app.route("/comment/content", methods=["GET"])
 def show_comment():
     comment_list = list(db.musics.find({}, {'_id': False}))
     return jsonify({'comments': comment_list})
 
+
+@app.route('/comment/content2', methods=['GET'])
+def delete_comment():
+    nickname_receive = request.form["nickname_give"]
+    db.musics.delete_one({"nickname": nickname_receive})
+    comment_list = list(db.musics.find({}, {'_id': False}))
+    return jsonify({'comments': comment_list})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
