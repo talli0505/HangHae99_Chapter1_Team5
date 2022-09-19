@@ -1,7 +1,7 @@
 # DB를 위한 코드
 from pymongo import MongoClient
 
-client = MongoClient('mongodb+srv://test:sparta@cluster0.h0u5sld.mongodb.net/Cluster0?retryWrites=true&w=majority')
+client = MongoClient('몽고디비 주소')
 db = client.dbsparta
 
 # Flask를 위한 코드
