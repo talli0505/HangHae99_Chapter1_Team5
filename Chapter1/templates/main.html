@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="stylesheet" href="/main_style.css">
+    <link rel="stylesheet" href="/static/main_style.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
     <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap" rel="stylesheet">
     <meta charset="UTF-8">
@@ -25,12 +25,10 @@
 
 <div class="wrapper">
     <div class="nav">
-        <a class="join" href="">
+        <a class="join" href="register.html">
             회원가입
         </a>
-        <a class="join"  href="">로그인</a>
-
-
+        <a class="join" href="">로그인</a>
     </div>
 
     <div class="sidebar">
@@ -65,7 +63,6 @@
                     <span class="item">2020</span>
                 </a>
             </li>
-
         </ul>
     </div>
 </div>
@@ -78,6 +75,7 @@
             <th scope="col">가수</th>
             <th scope="col">앨범</th>
             <th scope="col">댓글</th>
+            <th scope="col">좋아요</th>
         </tr>
         </thead>
         <tbody>
@@ -86,26 +84,28 @@
             <td>Mark</td>
             <td>Otto</td>
             <td>@mdo</td>
-            <td>댓글남기기</td>
+            <td class="comment_move" onclick="location.href='comment.html'">댓글남기기 👈</td>
+            <td class="comment_move" onclick="location.href=''">❤️</td>
         </tr>
         <tr>
             <th scope="row">2</th>
             <td>Jacob</td>
             <td>Thornton</td>
             <td>@fat</td>
-            <td>댓글남기기</td>
+            <td class="comment_move" onclick="location.href='comment.html'">댓글남기기 👈</td>
+            <td class="comment_move" onclick="location.href=''">❤️</td>
         </tr>
         <tr>
             <th scope="row">3</th>
             <td colspan="2">Larry the Bird</td>
             <td>@twitter</td>
-            <td>댓글남기기</td>
+            <td class="comment_move" onclick="location.href='comment.html'">댓글남기기 👈</td>
+            <td class="comment_move" onclick="location.href=''">❤️</td>
         </tr>
         </tbody>
     </table>
 
 </div>
-
 
 </body>
 </html>

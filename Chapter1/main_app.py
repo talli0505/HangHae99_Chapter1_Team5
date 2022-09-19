@@ -1,16 +1,23 @@
-from flask import Flask, render_template, request, jsonify
+import requests
+from bs4 import BeautifulSoup
 
-app = Flask(__name__)
+headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+data = requests.get('https://www.genie.co.kr/chart/musicHistory?year=2000&category=0',headers=headers)
 
-from pymongo import MongoClient
+soup = BeautifulSoup(data.text, 'html.parser')
 
-client = MongoClient('mongodb+srv://test:sparta@cluster0.vuhmz.mongodb.net/Cluster0?retryWrites=true&w=majority')
-db = client.dbsparta
+#body-content > div.songlist-box > div.music-list-wrap > table > tbody > tr:nth-child(1) > td.number
+#body-content > div.songlist-box > div.music-list-wrap > table > tbody > tr:nth-child(1) > td.info > a.title.ellipsis
+#body-content > div.songlist-box > div.music-list-wrap > table > tbody > tr:nth-child(1) > td.info > a.artist.ellipsis
+
+genie = soup.select('#body-content > div.songlist-box > div.music-list-wrap > table > tbody > tr')
+
+for music in genie:
+    rank = music.select_one('td.number').text.strip()
+    title = music.select_one('td.info > a.title.ellipsis').text.strip()
+    artist = music.select_one('td.info > a.artist.ellipsis').text.strip()
+    titles = title.replace("TITLE","").strip()
+
+    print(rank,titles,artist)
 
 
-@app.route('/')
-def home():
-    return render_template('main.html')
-
-
-if __name__ == '__main__': app.run('0.0.0.0', port=5000, debug=True)
