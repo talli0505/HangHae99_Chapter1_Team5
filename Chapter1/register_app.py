@@ -43,7 +43,7 @@ db = client.practice_project_week1
 
 @app.route('/')
 def home():
-    return render_template('register.html')
+    return render_template('register2.html')
 
 
 #################################
