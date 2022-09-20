@@ -18,10 +18,9 @@ from bs4 import BeautifulSoup
 def home():
     return render_template('index.html')
 
-
-@app.route('/comment/')
-def detail():
-    return render_template("comment.html")
+@app.route('/comment/<title>')
+def detail(title):
+    return render_template("comment.html", title=title)
 
 
 @app.route('/comment/content', methods=['POST'])
@@ -54,6 +53,7 @@ def delete_word():
 
     db.musics.delete_one({'num': int(num_receive)})
     return jsonify({'msg': '삭제 완료!'})
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
