@@ -16,6 +16,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gaegu&family=Gugi&family=Jua&display=swap"
           rel="stylesheet">
 
+    <script src="https://kit.fontawesome.com/1ec9ae1dae.js" crossorigin="anonymous"></script>
+
     <style>
         .wrap {
             display: flex;
@@ -51,7 +53,28 @@
             margin: 10px auto 10px auto;
         }
 
+        .fa-heart {
+            color: red;
+            font-size: 30px;
+            margin-left: 10px;
+        }
+
     </style>
+
+    <script>
+        function myFunction(x) {
+            x.classList.toggle("fa-solid");
+        }
+
+        $(document).ready(function () {
+
+        });
+
+        // 음원 데이터 받아와서 연결 후
+        // 밑에 표 형태 잡고
+        // 좋아요 ( 버킷 처럼 ) 연결
+        // 댓글 페이지도 연결
+    </script>
 
 </head>
 <body>
@@ -83,19 +106,19 @@
                     <th scope="row">1</th>
                     <td>Mark</td>
                     <td>Otto</td>
-                    <td><button onclick="window.location.href='/comment/song_title'">댓글달기</button></td>
-                    <td><span class="icon is-small"><i class="fa fa-heart"
-                                                               aria-hidden="true"></i></span>&nbsp;<span
-                                    class="like-num">2.7k</span></td>
+                    <td>
+                        <button onclick="window.location.href='/comment/song_title'">댓글달기</button>
+                    </td>
+                    <td><i onclick="myFunction(this)" class="fa-regular fa-heart"></i></td>
                 </tr>
                 <tr>
-                    <th scope="row">1</th>
+                    <th scope="row">2</th>
                     <td>Mark2</td>
                     <td>Otto2</td>
-                    <td><button onclick="window.location.href='/comment/song_title2'">댓글달기</button></td>
-                    <td><span class="icon is-small"><i class="fa fa-heart"
-                                                               aria-hidden="true"></i></span>&nbsp;<span
-                                    class="like-num">2.7k</span></td>
+                    <td>
+                        <button onclick="window.location.href='/comment/song_title2'">댓글달기</button>
+                    </td>
+                    <td><i onclick="myFunction(this)" class="fa-regular fa-heart"></i></td>
                 </tr>
                 </tbody>
             </table>
