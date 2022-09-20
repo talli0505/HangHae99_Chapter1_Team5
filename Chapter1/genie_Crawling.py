@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from pymongo import MongoClient
-client = MongoClient('mongodb+srv://test:sparta@cluster0.vuhmz.mongodb.net/Cluster0?retryWrites=true&w=majority')
+client = MongoClient('자기 몽고주소')
 db = client.dbsparta
 
 headers = {
