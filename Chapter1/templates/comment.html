@@ -120,7 +120,7 @@
                                               <th scope="row">${num}</th>
                                               <td>${nickname}</td>
                                               <td>${comment}</td>
-                                              <td><button onclick="delete_comment()">삭제</button></td>
+                                              <td><button onclick="delete_comment(${num})">삭제</button></td>
                                             </tr>`
 
                             $('#comment_body').append(html_temp)
@@ -144,27 +144,14 @@
             })
         }
 
-        function delete_comment() {
+        function delete_comment(num) {
              $.ajax({
-                    type: "GET",
-                    url: "/comment/content2",
-                    data: {},
+                    type: "POST",
+                    url: "/delete",
+                    data: {num_give: num},
                     success: function (response) {
-                        let rows = response['comments']
-                        for (let i = 0; i < rows.length; i++) {
-                            let num = rows[i]['num']
-                            let nickname = rows[i]['nickname']
-                            let comment = rows[i]['comment']
-
-                            let html_temp = `<tr>
-                                              <th scope="row">${num}</th>
-                                              <td>${nickname}</td>
-                                              <td>${comment}</td>
-                                              <td><button onclick="delete_comment()">삭제</button></td>
-                                            </tr>`
-
-                            $('#comment_body').append(html_temp)
-                        }
+                        alert(response['msg'])
+                        window.location.reload()
                     }
                 });
             }
