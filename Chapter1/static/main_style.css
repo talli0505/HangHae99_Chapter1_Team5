@@ -57,7 +57,7 @@ body {
     font-size: 14px;
 }
 
-.wrapper .sidebar ul li a {
+.wrapper .sidebar ul li div {
     display: block;
     padding: 13px 30px;
     border-bottom: 1px solid #AAABD3;
@@ -65,28 +65,29 @@ body {
     font-size: 16px;
     position: relative;
     text-decoration: none;
+    cursor: pointer;
 }
 
-.wrapper .sidebar ul li a .icon {
+.wrapper .sidebar ul li div .icon {
     color: #dee4ec;
     width: 30px;
     display: inline-block;
 }
 
-.wrapper .sidebar ul li a:hover,
-.wrapper .sidebar ul li a.active {
+.wrapper .sidebar ul li div:hover,
+.wrapper .sidebar ul li div.active {
     color: #0c7db1;
     background: white;
     border-right: 2px solid rgb(5, 68, 104);
 }
 
-.wrapper .sidebar ul li a:hover .icon,
-.wrapper .sidebar ul li a.active .icon {
+.wrapper .sidebar ul li div:hover .icon,
+.wrapper .sidebar ul li div.active .icon {
     color: #0c7db1;
 }
 
-.wrapper .sidebar ul li a:hover:before,
-.wrapper .sidebar ul li a.active:before {
+.wrapper .sidebar ul li div:hover:before,
+.wrapper .sidebar ul li div.active:before {
     display: block;
 }
 
