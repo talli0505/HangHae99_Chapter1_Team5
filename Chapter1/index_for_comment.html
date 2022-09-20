@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <!-- Font Awesome CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gaegu&family=Gugi&family=Jua&display=swap"
+          rel="stylesheet">
+
+    <style>
+        .wrap {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .left {
+            background-color: green;
+            width: 300px;
+            height: 1150px;
+        }
+
+        .login {
+            background-color: yellow;
+            width: 150px;
+            margin-left: 1900px;
+
+            display: flex;
+            flex-direction: row;
+        }
+
+        .background_set {
+            background-color: orange;
+            width: 2000px;
+            height: 200px;
+            margin: 10px auto 0px auto;
+        }
+
+        .rank {
+            background-color: lightskyblue;
+            width: 2000px;
+            height: 900px;
+            margin: 10px auto 10px auto;
+        }
+
+    </style>
+
+</head>
+<body>
+<div class="wrap">
+    <div class="left">
+        <p>2020</p>
+        <p>2010</p>
+        <p>2000</p>
+    </div>
+    <div class="right">
+        <div class="login">
+            <button>회원가입</button>
+            <button>로그인</button>
+        </div>
+        <div class="background_set"></div>
+        <div class="rank">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">순위</th>
+                    <th scope="col">가수</th>
+                    <th scope="col">노래제목</th>
+                    <th scope="col">댓글달기</th>
+                    <th scope="col">좋아요</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td><button onclick="window.location.href='/comment/song_title'">댓글달기</button></td>
+                    <td><span class="icon is-small"><i class="fa fa-heart"
+                                                               aria-hidden="true"></i></span>&nbsp;<span
+                                    class="like-num">2.7k</span></td>
+                </tr>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark2</td>
+                    <td>Otto2</td>
+                    <td><button onclick="window.location.href='/comment/song_title2'">댓글달기</button></td>
+                    <td><span class="icon is-small"><i class="fa fa-heart"
+                                                               aria-hidden="true"></i></span>&nbsp;<span
+                                    class="like-num">2.7k</span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
