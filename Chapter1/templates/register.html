@@ -82,6 +82,8 @@
 
                 $close.addEventListener('click', () => {
                     closeModal($target);
+
+
                 });
             });
             // // Add a keyboard event to close all modals
@@ -138,9 +140,50 @@
             });
         }
 
+
+        //이메일 중복 확인 및 올바른 구역에 @ 포함
+        function check_mail() {
+            let email = $("#input-email").val()
+            let domain = $("#input-domain").val()
+            console.log(email, domain)
+            if (email == "") {
+                $("#help-email").text("이메일을 올바르게 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+                $("#input-email").focus()
+                return;
+            }
+            if (domain == "") {
+                $("#help-email").text("이메일을 올바르게 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+                $("#input-domain").focus()
+                return;
+            }
+            if (!is_domain(domain)) {
+                $("#help-email").text("이메일 형식을 확인해 주세요.").removeClass("is-safe").addClass("is-danger")
+                $("#input-domain").focus()
+                return;
+            }
+            $("#help-email").addClass("is-loading")
+            $.ajax({
+                type: "POST",
+                url: "/sign_up/check_email",
+                data: {email_give: email, domain_give: domain},
+                success: function (response) {
+
+                    if (response["exists2"]) {
+                        $("#help-email").text("이미 가입내역이있는 이메일입니다.").removeClass("is-safe").addClass("is-danger")
+                        $("#input-email").focus()
+                        $("#input-domain").focus()
+                    } else {
+                        $("#help-email").text("사용할 수 있는 이메일입니다.").removeClass("is-danger").addClass("is-success")
+                    }
+                    $("#help-email").removeClass("is-loading")
+
+                }
+            });
+        }
+
         // <!--   아이디 비밀번호 정규 표현식! 들어갈수 있는 문자, 단어 길이 등 조건을 표현 -->//
         function is_nickname(asValue) {
-            var regExp = /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{2,10}$/;
+            var regExp = /^(?=.*[a-zA-Z])[a-zA-Z0-9_.]{2,10}$/;
             return regExp.test(asValue);
         }
 
@@ -149,13 +192,26 @@
             return regExp.test(asValue);
         }
 
+        function is_domain(asValue) {
+            var regExp = /^(?=.*[a-zA-Z])[a-zA-Z0-9_.]{2,10}$/;
+            return regExp.test(asValue)
+        }
+
+        // function is_phone(asValue) {
+        //     var regExp = /^(?=.*\d)$/;
+        //     return regExp.test(asValue)
+        // }
+
 
         // <!--   회원가입 클라이언트!! -->//
         function sign_up() {
             let username = $("#input-username").val()
             let password = $("#input-password").val()
             let password2 = $("#input-password2").val()
-            console.log(username, password, password2)
+            let email = $("#input-email").val()
+            let domain = $("#input-domain").val()
+            let phone = $("#input-phone").val()
+            console.log(username, password, password2,email ,domain, phone)
 
 
             if ($("#help-id").hasClass("is-danger")) {
@@ -188,12 +244,39 @@
             } else {
                 $("#help-password2").text("비밀번호가 일치합니다.").removeClass("is-danger").addClass("is-success")
             }
+
+            if ($("#help-email").hasClass("is-danger")) {
+                alert("이메일을 다시 확인해주세요.")
+                return;
+            } else if (!$("#help-email").hasClass("is-success")) {
+                alert("이메일 중복확인을 해주세요.")
+                return;
+            } else {
+                $("#help-email").text("사용 가능한 이메일입니다.").removeClass("is-danger").addClass("is-success")
+            }
+
+            // if (phone == "") {
+            //     $("#help-phone").text("전화번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+            //     $("#input-phone").focus()
+            //     return;
+            // } else if (!is_phone(phone)) {
+            //     $("#help-phone").text("전화번호 형식을 확인해주세요. '_'를 제외한 숫자만 입력해 주세요. 11자리의 핸드폰 번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+            //     $("#input-phone").focus()
+            //     return
+            // } else {
+            //     $("#help-phone").text("사용할 수 있는 전화번호입니다.").removeClass("is-danger").addClass("is-success")
+            // }
+
+
             $.ajax({
                 type: "POST",
                 url: "/sign_up/save",
                 data: {
                     username_give: username,
-                    password_give: password
+                    password_give: password,
+                    email_give: email,
+                    domain_give: domain,
+                    phone_give: phone
                 },
                 success: function (response) {
                     alert("회원가입을 축하드립니다!")
@@ -260,13 +343,13 @@
                             <div class="field">
                                 <div class="mail">
                                     <p class="control has-icons-left">
-                                        <input id="input-email" class="input" type="email" placeholder="Email" style="width: 45%">
-                                        <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span>
-                                        <input id="input-domain" class="input" type="text" placeholder="직접입력" style="width: 40%">
-                                        <button class="button is-right" onclick="check_mail()">확인</button>
+                                        <input id="input-email" class="input" type="email" placeholder="Email" style="width: 40%">
+                                        <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span> @
+                                        <input id="input-domain" class="input" type="text" placeholder="직접입력" style="width: 36%">
+                                        <button class="button is-right" onclick="check_mail()">중복확인</button>
                                     </p>
                                 </div>
-                                <p id="help-email" class="help">올바른 이메일 형식을 입력해주세요.(직접입력란에 @ 포함하여 입력)</p>
+                                <p id="help-email" class="help">올바른 이메일 형식을 입력해주세요.</p>
                             </div>
 
                             <div class="mb-5">
@@ -276,7 +359,7 @@
                                                placeholder="전화번호">
                                         <span class="icon is-small is-left"><i class="fa fa-phone"></i></span>
                                     </div>
-                                    <p id="help-phone" class="help">'-' 을 제외한 숫자만 입력해주세요.</p>
+                                    <p id="help-phone" class="help">선택사항 입니다.</p>
 
                                 </div>
                             </div>
@@ -287,7 +370,7 @@
                                 <button class="level-item button is-sparta" onclick="sign_up()">
                                     회원가입
                                 </button>
-                                <button class="level-item button is-sparta is-outlined" onclick="close_toggle()">
+                                <button class="level-item button is-sparta is-outlined">
                                     취소
                                 </button>
                             </nav>

@@ -14,8 +14,6 @@ from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
 
 app = Flask(__name__)
-app.config["TEMPLATES_AUTO_RELOAD"] = True
-app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 
 # JWT 토큰을 만들 때 필요한 비밀문자열입니다. 아무거나 입력해도 괜찮습니다.
 # 이 문자열은 서버만 알고있기 때문에, 내 서버에서만 토큰을 인코딩(=만들기)/디코딩(=풀기) 할 수 있습니다.
@@ -43,8 +41,8 @@ db = client.practice_project_week1
 
 
 
-@app.route('/register')
-def register():
+@app.route('/')
+def home():
     return render_template('register.html')
 
 
@@ -52,52 +50,46 @@ def register():
 ##  로그인을 위한 API            ##
 #################################
 
-# [회원가입 API]
-# id, pw, nickname을 받아서, mongoDB에 저장합니다.
-# 저장하기 전에, pw를 sha256 방법(=단방향 암호화. 풀어볼 수 없음)으로 암호화해서 저장합니다.
-# @app.route('/api/register', methods=['POST'])
-# def api_register():
-#     id_receive = request.form['id_give']
-#     pw_receive = request.form['pw_give']
-#     nickname_receive = request.form['nickname_give']
-#
-#     pw_hash = hashlib.sha256(pw_receive.encode('utf-8')).hexdigest()
-#
-#     db.user.insert_one({'id': id_receive, 'pw': pw_hash, 'nick': nickname_receive})
-#
-#     return jsonify({'result': 'success'})
-
 # 아이디 중복확인 서버!!
 @app.route('/sign_up/check_dup', methods=['POST'])
 def check_dup():
     username_receive = request.form['username_give']
-    exists = bool(db.users.find_one({"username": username_receive}))
+    exists = bool(db.project_DAMU.find_one({"username": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
 
+
+# [회원가입 API]
+# id, pw, nickname을 받아서, mongoDB에 저장합니다.
+# 저장하기 전에, pw를 sha256 방법(=단방향 암호화. 풀어볼 수 없음)으로 암호화해서 저장합니다.
 @app.route('/sign_up/check_email', methods=['POST'])
 def check_email():
     email_receive = request.form['email_give']
     domain_receive = request.form['domain_give']
     full_mail = email_receive + domain_receive
     exists2 = bool(db.project_DAMU.find_one({"email"+"domain": full_mail}))
-    return jsonify({'result': 'success', 'exists': exists2})
+    return jsonify({'result': 'success', 'exists2': exists2})
 
 # 회원가입 서버!!
-# @app.route('/sign_up/save', methods=['POST'])
-# def sign_up():
-#     username_receive = request.form['username_give']
-#     password_receive = request.form['password_give']
-#     password_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
-#     doc = {
-#         "username": username_receive,                               # 아이디
-#         "password": password_hash,                                  # 비밀번호
-#         "profile_name": username_receive,                           # 프로필 이름 기본값은 아이디
-#         "profile_pic": "",                                          # 프로필 사진 파일 이름
-#         "profile_pic_real": "profile_pics/profile_placeholder.png", # 프로필 사진 기본 이미지
-#         "profile_info": ""                                          # 프로필 한 마디
-#     }
-#     db.project_DAMU.insert_one(doc)
-#     return jsonify({'result': 'success'})
+@app.route('/sign_up/save', methods=['POST'])
+def sign_up():
+    username_receive = request.form['username_give']
+    password_receive = request.form['password_give']
+    email_receive = request.form['email_give']
+    domain_receive = request.form['domain_give']
+    phone_receive = request.form['phone_give']
+
+    password_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
+    phone_hash = hashlib.sha256(phone_receive.encode('utf-8')).hexdigest()
+    doc = {
+        "username": username_receive,                               # 아이디
+        "password": password_hash,                                  # 비밀번호
+        "email": email_receive,                                     # 이메일 앞부분
+        "domain": domain_receive,                                   # 이메일 도메인부분
+        "phone": phone_hash,                                        # 핸드폰번호
+
+    }
+    db.project_DAMU.insert_one(doc)
+    return jsonify({'result': 'success'})
 
 
 if __name__ == '__main__':
