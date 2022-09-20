@@ -57,10 +57,7 @@ def check_dup():
     exists = bool(db.project_DAMU.find_one({"username": username_receive}))
     return jsonify({'result': 'success', 'exists': exists})
 
-
-# [회원가입 API]
-# id, pw, nickname을 받아서, mongoDB에 저장합니다.
-# 저장하기 전에, pw를 sha256 방법(=단방향 암호화. 풀어볼 수 없음)으로 암호화해서 저장합니다.
+# 이메일 중복확인 서버!!
 @app.route('/sign_up/check_email', methods=['POST'])
 def check_email():
     email_receive = request.form['email_give']
@@ -68,6 +65,11 @@ def check_email():
     full_mail = email_receive + domain_receive
     exists2 = bool(db.project_DAMU.find_one({"email"+"domain": full_mail}))
     return jsonify({'result': 'success', 'exists2': exists2})
+
+# [회원가입 API]
+# id, pw, nickname을 받아서, mongoDB에 저장합니다.
+# 저장하기 전에, pw를 sha256 방법(=단방향 암호화. 풀어볼 수 없음)으로 암호화해서 저장합니다.
+
 
 # 회원가입 서버!!
 @app.route('/sign_up/save', methods=['POST'])

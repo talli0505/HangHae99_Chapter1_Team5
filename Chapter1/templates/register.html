@@ -173,7 +173,7 @@
                         $("#input-email").focus()
                         $("#input-domain").focus()
                     } else {
-                        $("#help-email").text("사용할 수 있는 이메일입니다.").removeClass("is-danger").addClass("is-success")
+                        $("#help-email").text("올바른 형식의 이메일입니다.").removeClass("is-danger").addClass("is-success")
                     }
                     $("#help-email").removeClass("is-loading")
 
@@ -245,16 +245,17 @@
                 $("#help-password2").text("비밀번호가 일치합니다.").removeClass("is-danger").addClass("is-success")
             }
 
-            if ($("#help-email").hasClass("is-danger")) {
-                alert("이메일을 다시 확인해주세요.")
-                return;
-            } else if (!$("#help-email").hasClass("is-success")) {
-                alert("이메일 중복확인을 해주세요.")
-                return;
-            } else {
-                $("#help-email").text("사용 가능한 이메일입니다.").removeClass("is-danger").addClass("is-success")
-            }
 
+            
+            // if ($("#help-email").hasClass("is-danger")) {
+            //     alert("이메일을 다시 확인해주세요.")
+            //     return;
+            // } else if (!$("#help-email").hasClass("is-success")) {
+            //     alert("이메일 중복확인을 해주세요.")
+            //     return;
+            // } else {
+            //     $("#help-email").text("사용 가능한 이메일입니다.").removeClass("is-danger").addClass("is-success")
+            // }
             // if (phone == "") {
             //     $("#help-phone").text("전화번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
             //     $("#input-phone").focus()
@@ -343,10 +344,10 @@
                             <div class="field">
                                 <div class="mail">
                                     <p class="control has-icons-left">
-                                        <input id="input-email" class="input" type="email" placeholder="Email" style="width: 40%">
+                                        <input id="input-email" class="input" type="email" placeholder="Email" style="width: 42%">
                                         <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span> @
-                                        <input id="input-domain" class="input" type="text" placeholder="직접입력" style="width: 36%">
-                                        <button class="button is-right" onclick="check_mail()">중복확인</button>
+                                        <input id="input-domain" class="input" type="text" placeholder="직접입력" style="width: 38%">
+                                        <button class="button is-right" onclick="check_mail()">확인</button>
                                     </p>
                                 </div>
                                 <p id="help-email" class="help">올바른 이메일 형식을 입력해주세요.</p>
