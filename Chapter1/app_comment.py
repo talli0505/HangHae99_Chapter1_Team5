@@ -1,7 +1,7 @@
 # DB를 위한 코드
 from pymongo import MongoClient
 
-client = MongoClient('몽고디비 주소')
+client = MongoClient('몽고디비주소')
 db = client.dbsparta
 
 # Flask를 위한 코드
@@ -19,7 +19,7 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/comment')
+@app.route('/comment/')
 def detail():
     return render_template("comment.html")
 
@@ -48,12 +48,12 @@ def show_comment():
     return jsonify({'comments': comment_list})
 
 
-@app.route('/comment/content2', methods=['GET'])
-def delete_comment():
-    nickname_receive = request.form["nickname_give"]
-    db.musics.delete_one({"nickname": nickname_receive})
-    comment_list = list(db.musics.find({}, {'_id': False}))
-    return jsonify({'comments': comment_list})
+@app.route('/delete', methods=['POST'])
+def delete_word():
+    num_receive = request.form['num_give']
+
+    db.musics.delete_one({'num': int(num_receive)})
+    return jsonify({'msg': '삭제 완료!'})
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
