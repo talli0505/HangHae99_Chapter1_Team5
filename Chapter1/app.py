@@ -11,11 +11,11 @@ app = Flask(__name__)
 app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.config['UPLOAD_FOLDER'] = "./static/profile_pics"
 
-SECRET_KEY = 'SPARTA'
+SECRET_KEY = ''
 
 from pymongo import MongoClient
 
-client = MongoClient('mongodb+srv://test:sparta@cluster0.h0u5sld.mongodb.net/Cluster0?retryWrites=true&w=majority')
+client = MongoClient('자기몽고주소')
 db = client.dbsparta
 
 
