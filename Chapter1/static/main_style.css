@@ -113,9 +113,32 @@ body {
     height: 100%;
 }
 
-.comment_move{
-    cursor:pointer;
+.comment_move {
+    cursor: pointer;
 }
-.comment_move:hover{
+
+.comment_move:hover {
     color: #0c7db1;
+}
+
+.fa-heart {
+    color: red;
+    font-size: 30px;
+    margin-left: 10px;
+}
+
+#modal-content {
+    width: 1000px;
+    height: 820px;
+    margin: auto;
+}
+
+.modal-header {
+    background: lightblue;
+    color: #fff;
+}
+
+.required:after {
+    content: "*";
+    color: red;
 }
