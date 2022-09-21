@@ -15,7 +15,6 @@ SECRET_KEY = 'SPARTA'
 
 from pymongo import MongoClient
 
-# client = MongoClient('mongodb+srv://test:sparta@cluster0.vuhmz.mongodb.net/Cluster0?retryWrites=true&w=majority')
 client = MongoClient('mongodb+srv://test:sparta@cluster0.h0u5sld.mongodb.net/Cluster0?retryWrites=true&w=majority')
 db = client.dbsparta
 
@@ -23,7 +22,15 @@ db = client.dbsparta
 #  메인 페이지
 @app.route('/')
 def home():
-    return render_template('main.html')
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        user_info = db.project_DAMU.find_one({"username": payload["id"]})
+        return render_template('main.html', user_info=user_info)
+    except jwt.ExpiredSignatureError:
+        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
+    except jwt.exceptions.DecodeError:
+        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
 @app.route('/login')
 def login():
@@ -62,6 +69,7 @@ def music_get2():
 def music_get3():
     music_list3 = list(db.genie_2020.find({}, {'_id': False}))
     return jsonify({'musics3': music_list3})
+
 
 
 # 아이디 중복확인 서버!!
@@ -131,7 +139,60 @@ def sign_in():
     else:
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
-#좋아요
+
+# 2000년 노래 좋아요
+@app.route("/genie_2000/like", methods=["POST"])
+def genie_2000_like():
+    num_receive = request.form['num_give']
+
+    db.genie_2000.update_one({'num': int(num_receive)}, {'$set': {'done': 1}})
+
+    return jsonify({'msg': '좋아요 완료!'})
+
+# 2010년 노래 좋아요
+@app.route("/genie_2010/like", methods=["POST"])
+def genie_2010_like():
+    num_receive = request.form['num_give']
+
+    db.genie_2010.update_one({'num': int(num_receive)}, {'$set': {'done': 1}})
+
+    return jsonify({'msg': '좋아요 완료!'})
+
+# 2020년 노래 좋아요
+@app.route("/genie_2020/like", methods=["POST"])
+def genie_2020_like():
+    num_receive = request.form['num_give']
+
+    db.genie_2020.update_one({'num': int(num_receive)}, {'$set': {'done': 1}})
+
+    return jsonify({'msg': '좋아요 완료!'})
+
+# 2000년 노래 싫어요
+@app.route("/genie_2000/dislike", methods=["POST"])
+def genie_2000_dislike():
+    num_receive = request.form['num_give']
+
+    db.genie_2000.update_one({'num': int(num_receive)}, {'$set': {'done': 0}})
+
+    return jsonify({'msg': '취소 완료!'})
+
+# 2010년 노래 싫어요
+@app.route("/genie_2010/dislike", methods=["POST"])
+def genie_2010_dislike():
+    num_receive = request.form['num_give']
+
+    db.genie_2010.update_one({'num': int(num_receive)}, {'$set': {'done': 0}})
+
+    return jsonify({'msg': '취소 완료!'})
+
+# 2020년 노래 싫어요
+@app.route("/genie_2020/dislike", methods=["POST"])
+def genie_2020_dislike():
+    num_receive = request.form['num_give']
+
+    db.genie_2020.update_one({'num': int(num_receive)}, {'$set': {'done': 0}})
+
+    return jsonify({'msg': '취소 완료!'})
 
 
 
