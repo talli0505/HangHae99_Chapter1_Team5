@@ -1,676 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta property="og:title" content="🌟타임뮤직"/>
-    <meta property="og:description" content="그 시절 우리가 좋아했던 음악"/>
-    <meta property="og:image" content="https://i.pinimg.com/originals/fd/30/c2/fd30c2ec38873560b9a0e4cb300578ce.jpg"/>
+from flask import Flask, render_template, request, jsonify
 
-    <link rel="stylesheet" href="/static/main_style.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
-    <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang&display=swap" rel="stylesheet">
+app = Flask(__name__)
 
+from pymongo import MongoClient
 
-    <!-- Bulma CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-    <!-- Font Awesome CSS -->
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+client = MongoClient('mongodb+srv://test:sparta@cluster0.vuhmz.mongodb.net/Cluster0?retryWrites=true&w=majority')
+db = client.dbsparta
 
 
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/1ec9ae1dae.js" crossorigin="anonymous"></script>
+@app.route('/')
+def home():
+    return render_template('main.html')
 
-    {# 내가만든 js파일 가져오기#}
-    <script src="../js/protocol.js"></script>
+@app.route('/comment/')
+def detail():
+    return render_template("comment.html")
 
-    <style>
-        .register-but {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
 
-            margin-top: 50px;
-        }
+@app.route("/music", methods=["GET"])
+def music_get01():
+    music_list01 = list(db.genie_2000.find({}, {'_id': False}))
+    return jsonify({'musics1': music_list01})
 
-        .box > p {
-            font-size: 40px;
-            text-align: center;
-            font-family: 'Jua', sans-serif;
-        }
 
-        .mail {
-            display: flex;
-            flex-direction: row;
-            justify-content: left;
-            align-items: center;
+def music_get02():
+    music_list02 = list(db.genie_2010.find({}, {'_id': False}))
+    return jsonify({'musics2': music_list02})
 
-        }
 
-        .content > hr {
-            margin: 50px auto 30px auto;
-        }
+def music_get03():
+    music_list03 = list(db.genie_2020.find({}, {'_id': False}))
+    return jsonify({'musics3': music_list03})
 
 
-        /* modal style */
-        body {
-            font-family: Arial, Helvetica, sans-serif;
-        }
+@app.route("/music1", methods=["GET"])
+def music_get1():
+    music_list1 = list(db.genie_2000.find({}, {'_id': False}))
+    return jsonify({'musics1': music_list1})
 
-        /* The Modal (background) */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1; /* Sit on top */
-            padding-top: 100px; /* Location of the box */
-            left: 0;
-            top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgb(0, 0, 0); /* Fallback color */
-            background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-        }
 
-        /* Modal Content */
-        .modal-content {
-            background-color: #fefefe;
-            margin: auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-        }
+@app.route("/music2", methods=["GET"])
+def music_get2():
+    music_list2 = list(db.genie_2010.find({}, {'_id': False}))
+    return jsonify({'musics2': music_list2})
 
-        /* The Close Button */
-        .close {
-            color: #aaaaaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
 
-        .close:hover,
-        .close:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
-        }
+@app.route("/music3", methods=["GET"])
+def music_get3():
+    music_list3 = list(db.genie_2020.find({}, {'_id': False}))
+    return jsonify({'musics3': music_list3})
 
-    </style>
 
-    <script>
-        $(document).ready(function () {
-            show_music_all()
-        });
+@app.route('/music1/content', methods=['POST'])
+def save_comment1():
+    rank_receive = request.form["rank_give"]
 
-        // 음악 전체
-        function show_music_all() {
-            $('#music_table').empty()
-            $.ajax({
-                type: "GET",
-                url: "/music1",
-                data: {},
-                success: function (response) {
-                    let rows = response['musics1']
-                    for (let i = 0; i < rows.length; i++) {
-                        let rank = rows[i]['rank']
-                        let title = rows[i]['title']
-                        let artist = rows[i]['artist']
-                        let temp_html = `<tr>
-                                        <td> </td>
-                                        <td>${title}</td>
-                                        <td>${artist}</td>
-                                        <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">댓글버튼</button></td>
-                                        <td><i onclick="myFunction(this)" class="fa-regular fa-heart"></i></td>
-                                    </tr>`
-                        $('#music_table').append(temp_html)
-                    }
-                }
-            });
-            $.ajax({
-                type: "GET",
-                url: "/music2",
-                data: {},
-                success: function (response) {
-                    let rows = response['musics2']
-                    for (let i = 0; i < rows.length; i++) {
-                        let rank = rows[i]['rank']
-                        let title = rows[i]['title']
-                        let artist = rows[i]['artist']
-                        let temp_html = `<tr>
-                                        <td> </td>
-                                        <td>${title}</td>
-                                        <td>${artist}</td>
-                                        <td><button type="button">댓글달기</button>👈</td>
-                                        <td><i onclick="myFunction(this)" class="fa-regular fa-heart"></i></td>
-                                    </tr>`
-                        $('#music_table').append(temp_html)
-                    }
-                }
-            });
-            $.ajax({
-                type: "GET",
-                url: "/music3",
-                data: {},
-                success: function (response) {
-                    let rows = response['musics3']
-                    for (let i = 0; i < rows.length; i++) {
-                        let rank = rows[i]['rank']
-                        let title = rows[i]['title']
-                        let artist = rows[i]['artist']
-                        let temp_html = `<tr>
-                                        <td> </td>
-                                        <td>${title}</td>
-                                        <td>${artist}</td>
-                                        <td><button type="button">댓글달기</button>👈</td>
-                                        <td><i onclick="myFunction(this)" class="fa-regular fa-heart"></i></td>
-                                    </tr>`
-                        $('#music_table').append(temp_html)
-                    }
-                }
-            });
-        }
+    comment_list = list(db.genie_2000_comment.find({}, {'_id': False}))
+    count = len(comment_list) + 1
 
-        // 음악 2000년도
-        function show_music_2000() {
-            $('#music_table').empty()
-            $.ajax({
-                type: "GET",
-                url: "/music1",
-                data: {},
-                success: function (response) {
-                    let rows = response['musics1']
-                    for (let i = 0; i < rows.length; i++) {
-                        let rank = rows[i]['rank']
-                        let title = rows[i]['title']
-                        let artist = rows[i]['artist']
-                        let temp_html = `<tr>
-                                        <td>${rank}</td>
-                                        <td>${title}</td>
-                                        <td>${artist}</td>
-                                        <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">댓글버튼</button></td>
-                                        <td><i onclick="myFunction(this)" class="fa-regular fa-heart"></i></td>
-                                    </tr>`
-                        $('#music_table').append(temp_html)
-                    }
-                }
-            });
-        }
+    doc = {
+        "rank": rank_receive
+    }
 
-        // 음악 2010년도
-        function show_music_2010() {
-            $('#music_table').empty()
-            $.ajax({
-                type: "GET",
-                url: "/music2",
-                data: {},
-                success: function (response) {
-                    let rows = response['musics2']
-                    for (let i = 0; i < rows.length; i++) {
-                        let rank = rows[i]['rank']
-                        let title = rows[i]['title']
-                        let artist = rows[i]['artist']
-                        let temp_html = `<tr>
-                                        <td>${rank}</td>
-                                        <td>${title}</td>
-                                        <td>${artist}</td>
-                                        <td class="comment_move" onclick="location.href='comment.html'">댓글남기기 👈</td>
-                                        <td><i onclick="myFunction(this)" class="fa-regular fa-heart"></i></td>
-                                    </tr>`
-                        $('#music_table').append(temp_html)
-                    }
-                }
-            });
-        }
+    db.genie_2000_comment.insert_one(doc)
+    return jsonify({'msg': '등록 완료!'})
 
-        // 음악 2020년도
-        function show_music_2020() {
-            $('#music_table').empty()
-            $.ajax({
-                type: "GET",
-                url: "/music3",
-                data: {},
-                success: function (response) {
-                    let rows = response['musics3']
-                    for (let i = 0; i < rows.length; i++) {
-                        let rank = rows[i]['rank']
-                        let title = rows[i]['title']
-                        let artist = rows[i]['artist']
-                        let temp_html = `<tr>
-                                        <td>${rank}</td>
-                                        <td>${title}</td>
-                                        <td>${artist}</td>
-                                        <td class="comment_move" onclick="location.href='comment.html'">댓글남기기 👈</td>
-                                        <td><i onclick="myFunction(this)" class="fa-regular fa-heart"></i></td>
-                                    </tr>`
-                        $('#music_table').append(temp_html)
-                    }
-                }
-            });
-        }
 
-        // 하트 좋아요
-        function myFunction(x) {
-            x.classList.toggle("fa-solid");
-        }
+@app.route("/music1/content", methods=["GET"])
+def show_comment():
+    comment1_list = list(db.genie_2000_comment.find({}, {'_id': False}))
+    return jsonify({'comments': comment1_list})
 
-        // 로그인
-        function open_toggle() {
-            console.log('회원가입 버튼 클릭');
-            $('#modal-js-example').toggleClass("is-active")
-        }
 
-         // 회원가입
-        document.addEventListener('DOMContentLoaded', () => {
-            // Functions to open and close a modal
-            function openModal($el) {
-                $el.classList.add('is-active');
-            }
-
-            function closeModal($el) {
-                $el.classList.remove('is-active');
-            }
-
-            function closeAllModals() {
-                (document.querySelectorAll('.modal') || []).forEach(($modal) => {
-                    closeModal($modal);
-                });
-            }
-
-            // Add a click event on buttons to open a specific modal
-            (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
-                const modal = $trigger.dataset.target;
-                const $target = document.getElementById(modal);
-
-                $trigger.addEventListener('click', () => {
-                    openModal($target);
-                });
-            });
-
-            // Add a click event on various child elements to close the parent modal
-            (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button, .level-item2') || []).forEach(($close) => {
-                const $target = $close.closest('.modal');
-
-                $close.addEventListener('click', () => {
-                    closeModal($target);
-                });
-            });
-
-            // Add a keyboard event to close all modals
-            document.addEventListener('keydown', (event) => {
-                const e = event || window.event;
-
-                if (e.keyCode === 27) { // Escape key
-                    closeAllModals();
-                }
-            });
-        });
-
-
-        // <!--   아이디 중복확인 기능 클라이언트 -->//
-        function check_dup() {
-            let username = $("#input-username").val()
-            console.log(username)
-            if (username == "") {
-                $("#help-id").text("아이디를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
-                $("#input-username").focus()
-                return;
-            }
-            if (!is_nickname(username)) {
-                $("#help-id").text("아이디의 형식을 확인해주세요. 영문과 숫자, 일부 특수문자(._-) 사용 가능. 2-10자 길이").removeClass("is-safe").addClass("is-danger")
-                $("#input-username").focus()
-                return;
-            }
-            $("#help-id").addClass("is-loading")
-            $.ajax({
-                type: "POST",
-                url: "/sign_up/check_dup",
-                data: {
-                    username_give: username
-                },
-                success: function (response) {
-
-                    if (response["exists"]) {
-                        $("#help-id").text("이미 존재하는 아이디입니다.").removeClass("is-safe").addClass("is-danger")
-                        $("#input-username").focus()
-                    } else {
-                        $("#help-id").text("사용할 수 있는 아이디입니다.").removeClass("is-danger").addClass("is-success")
-                    }
-                    $("#help-id").removeClass("is-loading")
-
-                }
-            });
-        }
-
-
-        //이메일 중복 확인 및 올바른 구역에 @ 포함
-        function check_mail() {
-            let email = $("#input-email").val()
-            let domain = $("#input-domain").val()
-            console.log(email, domain)
-            if (email == "") {
-                $("#help-email").text("이메일을 올바르게 입력해주세요.").removeClass("is-safe").addClass("is-danger")
-                $("#input-email").focus()
-                return;
-            }
-            if (domain == "") {
-                $("#help-email").text("이메일을 올바르게 입력해주세요.").removeClass("is-safe").addClass("is-danger")
-                $("#input-domain").focus()
-                return;
-            }
-            if (!is_domain(domain)) {
-                $("#help-email").text("이메일 형식을 확인해 주세요.").removeClass("is-safe").addClass("is-danger")
-                $("#input-domain").focus()
-                return;
-            }
-            $("#help-email").addClass("is-loading")
-            $.ajax({
-                type: "POST",
-                url: "/sign_up/check_email",
-                data: {email_give: email, domain_give: domain},
-                success: function (response) {
-
-                    if (response["exists2"]) {
-                        $("#help-email").text("이미 가입내역이있는 이메일입니다.").removeClass("is-safe").addClass("is-danger")
-                        $("#input-email").focus()
-                        $("#input-domain").focus()
-                    } else {
-                        $("#help-email").text("올바른 형식의 이메일입니다.").removeClass("is-danger").addClass("is-success")
-                    }
-                    $("#help-email").removeClass("is-loading")
-
-                }
-            });
-        }
-
-        // <!--   아이디 비밀번호 정규 표현식! 들어갈수 있는 문자, 단어 길이 등 조건을 표현 -->//
-        function is_nickname(asValue) {
-            var regExp = /^(?=.*[a-zA-Z])[a-zA-Z0-9_.]{2,10}$/;
-            return regExp.test(asValue);
-        }
-
-        function is_password(asValue) {
-            var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
-            return regExp.test(asValue);
-        }
-
-        function is_domain(asValue) {
-            var regExp = /^(?=.*[a-zA-Z])[a-zA-Z0-9_.]{2,10}$/;
-            return regExp.test(asValue)
-        }
-
-
-        // <!--   회원가입 클라이언트!! -->//
-        function sign_up() {
-            let username = $("#input-username").val()
-            let password = $("#input-password").val()
-            let password2 = $("#input-password2").val()
-            let email = $("#input-email").val()
-            let domain = $("#input-domain").val()
-            let phone = $("#input-phone").val()
-            console.log(username, password, password2, email, domain, phone)
-
-
-            if ($("#help-id").hasClass("is-danger")) {
-                alert("아이디를 다시 확인해주세요.")
-                return;
-            } else if (!$("#help-id").hasClass("is-success")) {
-                alert("아이디 중복확인을 해주세요.")
-                return;
-            }
-
-            if (password == "") {
-                $("#help-password").text("비밀번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
-                $("#input-password").focus()
-                return;
-            } else if (!is_password(password)) {
-                $("#help-password").text("비밀번호의 형식을 확인해주세요. 영문과 숫자 필수 포함, 특수문자(!@#$%^&*) 사용가능 8-20자").removeClass("is-safe").addClass("is-danger")
-                $("#input-password").focus()
-                return
-            } else {
-                $("#help-password").text("사용할 수 있는 비밀번호입니다.").removeClass("is-danger").addClass("is-success")
-            }
-            if (password2 == "") {
-                $("#help-password2").text("비밀번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
-                $("#input-password2").focus()
-                return;
-            } else if (password2 != password) {
-                $("#help-password2").text("비밀번호가 일치하지 않습니다.").removeClass("is-safe").addClass("is-danger")
-                $("#input-password2").focus()
-                return;
-            } else {
-                $("#help-password2").text("비밀번호가 일치합니다.").removeClass("is-danger").addClass("is-success")
-            }
-
-
-
-            $.ajax({
-                type: "POST",
-                url: "/sign_up/save",
-                data: {
-                    username_give: username,
-                    password_give: password,
-                    email_give: email,
-                    domain_give: domain,
-                    phone_give: phone
-                },
-                success: function (response) {
-                    alert("회원가입을 축하드립니다!")
-                    window.location.replace("/login")
-                }
-            });
-
-        }
-
-        // end, Register
-
-    </script>
-
-    <title>TimeMusic</title>
-
-</head>
-<body>
-<div class="wrapper">
-    <!-- 위 회원 가입 버튼-->
-    <div class="nav">
-        <div class="register-but">
-            <button onclick="open_toggle()" class="btn btn-outline-info" data-target="modal-js-example">회원가입</button>
-            <button onclick="window.location.href = '/login'" type="button" class="btn btn-outline-info">로그인</button>
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">댓글버튼</button>
-        </div>
-    </div>
-    <!-- 옆 사이드 바-->
-    <div class="sidebar">
-        <div class="profile">
-            <img src="https://i.pinimg.com/originals/fd/30/c2/fd30c2ec38873560b9a0e4cb300578ce.jpg"
-                 alt="profile_picture">
-            <h2>타임뮤직</h2>
-            <p>그 시절 우리가 좋아했던 음악</p>
-        </div>
-        <ul>
-            <li>
-                <div onclick="show_music_all()">
-                    <span class="icon"><i class="fa fa-list"></i></span>
-                    <span class="item">전체보기</span>
-                </div>
-            </li>
-            <li>
-                <div onclick='show_music_2000()'>
-                    <span class="icon"><i class="fa fa-headphones"></i></span>
-                    <span class="item">2000</span>
-                </div>
-            </li>
-            <li>
-                <div onclick='show_music_2010()'>
-                    <span class="icon"><i class="fa fa-headphones"></i></span>
-                    <span class="item">2010</span>
-                </div>
-            </li>
-            <li>
-                <div onclick='show_music_2020()'>
-                    <span class="icon"><i class="fa fa-music"></i></span>
-                    <span class="item">2020</span>
-                </div>
-            </li>
-        </ul>
-    </div>
-</div>
-<!-- 음원 테이블 -->
-<div class="music_table">
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">제목</th>
-            <th scope="col">가수</th>
-            <th scope="col">댓글</th>
-            <th scope="col">좋아요</th>
-        </tr>
-        </thead>
-        <tbody id="music_table">
-        </tbody>
-    </table>
-
-</div>
-
-
-<!-- 회원가입 모달 -->
-{#여기부터 회원가입 모달#}
-<div id="modal-js-example" class="modal">
-        <div class="modal-background"></div>
-
-        <div class="modal-content" id="modal-content">
-            <div class="box">
-                <p>회원가입🎶</p>
-                <hr>
-                <section class="section">
-                    <div class="container">
-                        <article class="media">
-                            <div class="media-content">
-                                <div class="content">
-                                    <div class="field has-addons">
-                                        <div class="control has-icons-left" style="width:100%">
-                                            <input id="input-username" class="input" type="text" placeholder="아이디">
-                                            <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
-                                        </div>
-                                        <div id="btn-check-dup" class="control">
-                                            <button class="button is-sparta" onclick="check_dup()">중복확인</button>
-                                        </div>
-
-                                    </div>
-                                    <p id="help-id" class="help">아이디는 2-10자의 영문과 숫자와 일부 특수문자(._-)만 입력 가능합니다.</p>
-                                    <p id="help-id-login" class="help is-danger"></p>
-
-                                    <div class="field">
-                                        <div class="control has-icons-left">
-                                            <input id="input-password" class="input" type="password" placeholder="비밀번호">
-                                            <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
-                                        </div>
-                                        <p id="help-password" class="help">영문과 숫자 조합의 8-20자의 비밀번호를 설정해주세요. 특수문자(!@#$%^&*)도
-                                            사용 가능합니다.</p>
-                                    </div>
-
-                                    <div class="mb-5">
-                                        <div class="field">
-                                            <div class="control has-icons-left" style="width:100%">
-                                                <input id="input-password2" class="input" type="password"
-                                                       placeholder="비밀번호 재입력">
-                                                <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
-                                            </div>
-                                            <p id="help-password2" class="help">비밀번호를 다시 한 번 입력해주세요.</p>
-
-                                        </div>
-                                    </div>
-                                    <div class="field">
-                                        <div class="mail">
-                                            <p class="control has-icons-left">
-                                                <input id="input-email" class="input" type="email" placeholder="Email"
-                                                       style="width: 42%">
-                                                <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span> @
-                                                <input id="input-domain" class="input" type="text" placeholder="직접입력"
-                                                       style="width: 38%">
-                                                <button class="button is-right" onclick="check_mail()">확인</button>
-                                            </p>
-                                        </div>
-                                        <p id="help-email" class="help">올바른 이메일 형식을 입력해주세요.</p>
-                                    </div>
-
-                                    <div class="mb-5">
-                                        <div class="field">
-                                            <div class="control has-icons-left" style="width:100%">
-                                                <input id="input-phone" class="input" type="text"
-                                                       placeholder="전화번호">
-                                                <span class="icon is-small is-left"><i class="fa fa-phone"></i></span>
-                                            </div>
-                                            <p id="help-phone" class="help">선택사항 입니다.</p>
-
-                                        </div>
-                                    </div>
-                                    <hr>
-
-
-                                    <nav class="level is-mobile">
-                                        <button class="level-item button is-sparta" onclick="sign_up()">
-                                            회원가입
-                                        </button>
-                                        <button class="level-item2 button is-sparta is-outlined">
-                                            취소
-                                        </button>
-                                    </nav>
-
-                                </div>
-                                </div>
-                        </article>
-                    </div>
-                </section>
-
-            </div>
-        </div>
-
-        <button class="modal-close is-large" aria-label="close"></button>
-    </div>
-
-
-
-<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-background"></div>
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">댓글창</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="mb-3">
-                        <label class="form-label required">닉네임</label>
-                        <input type="text" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label required">댓글 내용</label>
-                        <textarea class="form-control"></textarea>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">완료</button>
-                <button type="submit" class="btn btn-danger">취소</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-</body>
-</html>
+if __name__ == '__main__':
+    app.run('0.0.0.0', port=5000, debug=True)
