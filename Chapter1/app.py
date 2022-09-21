@@ -15,22 +15,14 @@ SECRET_KEY = ''
 
 from pymongo import MongoClient
 
-client = MongoClient('자기몽고주소')
+client = MongoClient('자기몽고디비주소')
 db = client.dbsparta
 
 
 #  메인 페이지
 @app.route('/')
 def home():
-    token_receive = request.cookies.get('mytoken')
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        user_info = db.project_DAMU.find_one({"username": payload["id"]})
-        return render_template('main.html', user_info=user_info)
-    except jwt.ExpiredSignatureError:
-        return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
-    except jwt.exceptions.DecodeError:
-        return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
+    return render_template('main.html')
 
 @app.route('/login')
 def login():
@@ -193,6 +185,22 @@ def genie_2020_dislike():
     db.genie_2020.update_one({'num': int(num_receive)}, {'$set': {'done': 0}})
 
     return jsonify({'msg': '취소 완료!'})
+
+# 댓글
+@app.route('/posting', methods=['POST'])
+def posting():
+    comment_receive = request.form['comment_give']
+    doc = {
+        'comment': comment_receive
+    }
+    db.comment.insert_one(doc)
+    return jsonify({'msg': '입력 완료!'})
+
+
+@app.route("/comment", methods=["GET"])
+def show_post():
+    all_comment_list = list(db.comment.find({}, {'_id': False}))
+    return jsonify({'comments': all_comment_list})
 
 
 
