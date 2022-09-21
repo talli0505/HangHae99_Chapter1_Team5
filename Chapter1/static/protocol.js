@@ -426,7 +426,9 @@ function sign_in() {
                 alert("로그인 완료")
             } else {
                 console.log(response['token'])
+                alert("로그인 제대로 하세요")
             }
         }
     });
 }
+

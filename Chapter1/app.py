@@ -15,6 +15,7 @@ SECRET_KEY = 'SPARTA'
 
 from pymongo import MongoClient
 
+# client = MongoClient('mongodb+srv://test:sparta@cluster0.vuhmz.mongodb.net/Cluster0?retryWrites=true&w=majority')
 client = MongoClient('mongodb+srv://test:sparta@cluster0.h0u5sld.mongodb.net/Cluster0?retryWrites=true&w=majority')
 db = client.dbsparta
 
@@ -131,21 +132,6 @@ def sign_in():
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
 #좋아요
-@app.route("/like", methods=["POST"])
-def bucket_done():
-    num_receive = request.form['num_give']
-
-    db.bucket.update_one({'num': int(num_receive)}, {'$set': {'done': 1}})
-
-    return jsonify({'msg': '버킷 완료!'})
-
-@app.route("/dislike", methods=["POST"])
-def bucket_cancel():
-    num_receive = request.form['num_give']
-
-    db.bucket.update_one({'num': int(num_receive)}, {'$set': {'done': 0}})
-
-    return jsonify({'msg': '취소 완료!'})
 
 
 
