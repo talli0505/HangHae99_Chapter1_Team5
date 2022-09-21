@@ -15,7 +15,7 @@ SECRET_KEY = 'SPARTA'
 
 from pymongo import MongoClient
 
-client = MongoClient('mongodb+srv://test:sparta@cluster0.vuhmz.mongodb.net/Cluster0?retryWrites=true&w=majority')
+client = MongoClient('자기몽고주소')
 db = client.dbsparta
 
 
@@ -23,6 +23,10 @@ db = client.dbsparta
 @app.route('/')
 def home():
     return render_template('main.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
 
 
 @app.route("/music", methods=["GET"])
@@ -112,12 +116,12 @@ def sign_in():
     password_receive = request.form['password_give']
 
     pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
-    result = db.users.find_one({'username': username_receive, 'password': pw_hash})
+    result = db.project_DAMU.find_one({'username': username_receive, 'password': pw_hash})
 
     if result is not None:
         payload = {
-            'id': username_receive,
-            'exp': datetime.utcnow() + timedelta(seconds=5)  # 로그인 24시간 유지
+         'id': username_receive,
+         'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
         }
         token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
 
