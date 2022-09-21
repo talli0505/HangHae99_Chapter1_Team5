@@ -422,12 +422,11 @@ function sign_in() {
         },
         success: function (response) {
             if (response['result'] == 'success') {
-                $.cookie('mytoken', response['token'], {path: '/'});
-                window.location.replace("/")
+                window.location.href = '/login'
+                alert("로그인 완료")
             } else {
-                alert(response['msg'])
+                console.log(response['token'])
             }
         }
     });
 }
-
