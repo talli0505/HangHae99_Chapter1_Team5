@@ -15,7 +15,7 @@ SECRET_KEY = 'SPARTA'
 
 from pymongo import MongoClient
 
-client = MongoClient('자기 몽고디비 주소')
+client = MongoClient('mongodb+srv://test:sparta@cluster0.vuhmz.mongodb.net/Cluster0?retryWrites=true&w=majority')
 db = client.dbsparta
 
 
