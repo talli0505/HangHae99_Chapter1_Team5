@@ -335,4 +335,3 @@ function genie_2020_dislike(num) {
                 }
             });
         }
-
