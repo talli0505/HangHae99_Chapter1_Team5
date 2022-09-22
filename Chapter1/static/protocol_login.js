@@ -305,6 +305,7 @@ function genie_2020_dislike(num) {
         }
 
         function show_post() {
+            // $('#comment-content-box').remove()
             $.ajax({
                 type: 'GET',
                 url: '/comment',
