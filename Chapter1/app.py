@@ -15,7 +15,7 @@ SECRET_KEY = ''
 
 from pymongo import MongoClient
 
-client = MongoClient('자기 몽고 디비 주소 ')
+client = MongoClient('자기 몽고 디비 주소')
 db = client.dbsparta
 
 YEARS = [
