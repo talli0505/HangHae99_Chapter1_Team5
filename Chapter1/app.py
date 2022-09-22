@@ -15,7 +15,7 @@ SECRET_KEY = ''
 
 from pymongo import MongoClient
 
-client = MongoClient('자기 몽고디비 주소')
+client = MongoClient('자기 몽고 디비 주소')
 db = client.dbsparta
 
 YEARS = [
@@ -200,8 +200,10 @@ def genie_2020_dislike():
 @app.route('/posting', methods=['POST'])
 def posting():
     comment_receive = request.form['comment_give']
+    nickname_receive = request.form['nickname_give']
     doc = {
-        'comment': comment_receive
+        'comment': comment_receive,
+        'nickname': nickname_receive
     }
     db.comment.insert_one(doc)
     return jsonify({'msg': '입력 완료!'})
