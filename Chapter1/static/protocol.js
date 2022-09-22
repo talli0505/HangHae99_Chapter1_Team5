@@ -1,4 +1,4 @@
-// 음악 전체
+//음악 전체
 function show_music_all() {
     $('#music_table').empty()
     $.ajax({
@@ -19,16 +19,16 @@ function show_music_all() {
                             <td>${rank}</td>
                             <td>${title}</td>
                             <td>${artist}</td>
-                            <td><button onclick="warning()" id="comment-button" type="button" class="btn btn-primary">댓글버튼</button>👈</td>
-                            <td><i onclick="warning()" class="fa-regular fa-heart"></i></td>
+                            <td><button id="comment-button" type="button" class="btn btn-primary">댓글버튼</button>👈</td>
+                            <td><i class="fa-regular fa-heart"></i></td>
                         </tr>`
                 } else {
                     temp_html = `<tr>
                             <td>${rank}</td>
                             <td>${title}</td>
                             <td>${artist}</td>
-                            <td><button onclick="warning()" id="comment-button" type="button" class="btn btn-primary">댓글버튼</button>👈</td>
-                            <td><i onclick="warning()" class="fa-regular fa-heart"></i></td>
+                            <td><button id="comment-button" type="button" class="btn btn-primary">댓글버튼</button>👈</td>
+                            <td><i class="fa-solid fa-heart"></i></td>
                         </tr>`
                 }
                 $('#music_table').append(temp_html)
@@ -54,16 +54,16 @@ function show_music_all() {
                             <td>${rank}</td>
                             <td>${title}</td>
                             <td>${artist}</td>
-                            <td><button onclick="warning()" id="comment-button" type="button" class="btn btn-primary">댓글버튼</button>👈</td>
-                            <td><i onclick="warning()" class="fa-regular fa-heart"></i></td>
+                            <td><button id="comment-button" type="button" class="btn btn-primary">댓글버튼</button>👈</td>
+                            <td><i class="fa-regular fa-heart"></i></td>
                         </tr>`
                 } else {
                     temp_html = `<tr>
                             <td>${rank}</td>
                             <td>${title}</td>
                             <td>${artist}</td>
-                            <td><button onclick="warning()" id="comment-button" type="button" class="btn btn-primary">댓글버튼</button>👈</td>
-                            <td><i onclick="warning()" class="fa-regular fa-heart"></i></td>
+                            <td><button oid="comment-button" type="button" class="btn btn-primary">댓글버튼</button>👈</td>
+                            <td><i class="fa-fa-solid fa-heart"></i></td>
                         </tr>`
                 }
                 $('#music_table').append(temp_html)
@@ -88,16 +88,16 @@ function show_music_all() {
                             <td>${rank}</td>
                             <td>${title}</td>
                             <td>${artist}</td>
-                            <td><button onclick="warning()" id="comment-button" type="button" class="btn btn-primary">댓글버튼</button>👈</td>
-                            <td><i onclick="warning()" class="fa-regular fa-heart"></i></td>
+                            <td><button id="comment-button" type="button" class="btn btn-primary">댓글버튼</button>👈</td>
+                            <td><i class="fa-regular fa-heart"></i></td>
                         </tr>`
                 } else {
                     temp_html = `<tr>
                             <td>${rank}</td>
                             <td>${title}</td>
                             <td>${artist}</td>
-                            <td><button onclick="warning()" id="comment-button" type="button" class="btn btn-primary">댓글버튼</button>👈</td>
-                            <td><i onclick="warning()" class="fa-regular fa-heart"></i></td>
+                            <td><button id="comment-button" type="button" class="btn btn-primary">댓글버튼</button>👈</td>
+                            <td><i class="fa-fa-solid fa-heart"></i></td>
                         </tr>`
                 }
                 $('#music_table').append(temp_html)
@@ -225,6 +225,67 @@ function show_music_2020() {
             }
         }
     });
+}
+
+// <!--   회원가입 클라이언트!! -->//
+function sign_up() {
+    let username = $("#input-username").val()
+    let password = $("#input-password").val()
+    let password2 = $("#input-password2").val()
+    let email = $("#input-email").val()
+    let domain = $("#input-domain").val()
+    let phone = $("#input-phone").val()
+    console.log(username, password, password2, email, domain, phone)
+
+
+    if ($("#help-id").hasClass("is-danger")) {
+        alert("아이디를 다시 확인해주세요.")
+        return;
+    } else if (!$("#help-id").hasClass("is-success")) {
+        alert("아이디 중복확인을 해주세요.")
+        return;
+    }
+
+    if (password == "") {
+        $("#help-password").text("비밀번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+        $("#input-password").focus()
+        return;
+    } else if (!is_password(password)) {
+        $("#help-password").text("비밀번호의 형식을 확인해주세요. 영문과 숫자 필수 포함, 특수문자(!@#$%^&*) 사용가능 8-20자").removeClass("is-safe").addClass("is-danger")
+        $("#input-password").focus()
+        return
+    } else {
+        $("#help-password").text("사용할 수 있는 비밀번호입니다.").removeClass("is-danger").addClass("is-success")
+    }
+    if (password2 == "") {
+        $("#help-password2").text("비밀번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
+        $("#input-password2").focus()
+        return;
+    } else if (password2 != password) {
+        $("#help-password2").text("비밀번호가 일치하지 않습니다.").removeClass("is-safe").addClass("is-danger")
+        $("#input-password2").focus()
+        return;
+    } else {
+        $("#help-password2").text("비밀번호가 일치합니다.").removeClass("is-danger").addClass("is-success")
+    }
+
+
+    $.ajax({
+        type: "POST",
+        url: "/sign_up/save",
+        data: {
+            username_give: username,
+            password_give: password,
+            email_give: email,
+            domain_give: domain,
+            phone_give: phone
+        },
+        success: function (response) {
+            alert("회원가입을 축하드립니다!")
+            window.location.replace("/")
+        }
+    });
+
 }
 
 // 회원가입 모달 열기&닫기
@@ -366,68 +427,6 @@ function is_domain(asValue) {
     return regExp.test(asValue)
 }
 
-
-// <!--   회원가입 클라이언트!! -->//
-function sign_up() {
-    let username = $("#input-username").val()
-    let password = $("#input-password").val()
-    let password2 = $("#input-password2").val()
-    let email = $("#input-email").val()
-    let domain = $("#input-domain").val()
-    let phone = $("#input-phone").val()
-    console.log(username, password, password2, email, domain, phone)
-
-
-    if ($("#help-id").hasClass("is-danger")) {
-        alert("아이디를 다시 확인해주세요.")
-        return;
-    } else if (!$("#help-id").hasClass("is-success")) {
-        alert("아이디 중복확인을 해주세요.")
-        return;
-    }
-
-    if (password == "") {
-        $("#help-password").text("비밀번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
-        $("#input-password").focus()
-        return;
-    } else if (!is_password(password)) {
-        $("#help-password").text("비밀번호의 형식을 확인해주세요. 영문과 숫자 필수 포함, 특수문자(!@#$%^&*) 사용가능 8-20자").removeClass("is-safe").addClass("is-danger")
-        $("#input-password").focus()
-        return
-    } else {
-        $("#help-password").text("사용할 수 있는 비밀번호입니다.").removeClass("is-danger").addClass("is-success")
-    }
-    if (password2 == "") {
-        $("#help-password2").text("비밀번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
-        $("#input-password2").focus()
-        return;
-    } else if (password2 != password) {
-        $("#help-password2").text("비밀번호가 일치하지 않습니다.").removeClass("is-safe").addClass("is-danger")
-        $("#input-password2").focus()
-        return;
-    } else {
-        $("#help-password2").text("비밀번호가 일치합니다.").removeClass("is-danger").addClass("is-success")
-    }
-
-
-    $.ajax({
-        type: "POST",
-        url: "/sign_up/save",
-        data: {
-            username_give: username,
-            password_give: password,
-            email_give: email,
-            domain_give: domain,
-            phone_give: phone
-        },
-        success: function (response) {
-            alert("회원가입을 축하드립니다!")
-            window.location.replace("/")
-        }
-    });
-
-}
-
 // end, Register
 
 // 로그인 모달 오픈 버튼 & 모달 닫기
@@ -509,7 +508,7 @@ function sign_in() {
                 alert("로그인 완료")
             } else {
                 console.log(response['token'])
-                alert("로그인 제대로 하세요")
+                alert("로그인 실패")
             }
         }
     });
@@ -517,50 +516,49 @@ function sign_in() {
 
 <!-- 포스트 입력 -->
 
-        function post() {
-            let post = $('#input-post').val()
-            $.ajax({
-                type: 'POST',
-                url: '/posting',
-                data: {comment_give: post},
-                success: function (response) {
-                    alert(response['msg'])
-                    window.location.reload()
-                }
-            });
+function post() {
+    let post = $('#input-post').val()
+    $.ajax({
+        type: 'POST',
+        url: '/posting',
+        data: {comment_give: post},
+        success: function (response) {
+            alert(response['msg'])
+            window.location.reload()
         }
+    });
+}
 
-        function show_post() {
-            console.log('넌 타ㅣ니?');
-            $.ajax({
-                type: 'GET',
-                url: '/comment',
-                data: {},
-                success: function (response) {
-                    console.log(response);
+function show_post() {
+    $.ajax({
+        type: 'GET',
+        url: '/comment',
+        data: {},
+        success: function (response) {
+            console.log(response);
 
-                    let length = response['comments'].length;
+            let length = response['comments'].length;
 
-                    let rows = response['comments'];
-                    console.log(rows);
+            let rows = response['comments'];
+            console.log(rows);
 
-                    for (var i = 0; i < length; i++) {
-                        let temp_html = `<div class="box" id="comment-card">
-                                            <article class="media">
-                                                <div class="media-content">
-                                                    <div class="content">
-                                                        <p>
-                                                            <strong>홍길동</strong> <small>@username</small> <small>10분 전</small>
-                                                            <br>
-                                                            ${rows[i]['comment']}
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </article>`;
-                        $('#post-box').append(temp_html)
-                    }
+            for (var i = 0; i < length; i++) {
+                let temp_html = `<div class="box" id="comment-card">
+                                    <article class="media">
+                                        <div class="media-content">
+                                            <div class="content">
+                                                <p>
+                                                    <strong>홍길동</strong> <small>@username</small> <small>10분 전</small>
+                                                    <br>
+                                                    ${rows[i]['comment']}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </article>`;
+                $('#post-box').append(temp_html)
+            }
 
-                }
-            });
         }
+    });
+}
 
