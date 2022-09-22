@@ -64,7 +64,13 @@
             <h2>타임뮤직</h2>
             <p>그 시절 우리가 좋아했던 음악</p>
         </div>
-        <ul>
+        <ul class="sidebar-list">
+            <li>
+                <div onclick="show_music_all()">
+                    <span class="icon"><i class="fa fa-list"></i></span>
+                    <span class="item">전체보기</span>
+                </div>
+            </li>
             {% for year in years %}
             <li>
                 <div onclick='show_music_{{ year['year'] }}()'>
@@ -73,6 +79,12 @@
                 </div>
             </li>
             {% endfor %}
+            <li>
+                <div data-bs-toggle="modal" data-bs-target="#myModal">
+                    <span class="icon"><i class="fa-solid fa-radio"></i></span>
+                    <span class="item">추억 한마디</span>
+                </div>
+            </li>
         </ul>
     </div>
 </div>
@@ -84,7 +96,6 @@
             <th scope="col">#</th>
             <th scope="col">제목</th>
             <th scope="col">가수</th>
-            <th scope="col">댓글</th>
             <th scope="col">좋아요</th>
         </tr>
         </thead>
@@ -263,7 +274,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">댓글창</h5>
+                <h5 class="modal-title">추억 한마디</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
@@ -275,9 +286,14 @@
                         <div class="media-content">
                             <div class="field">
                                 <p class="control">
+                                    <input id="input-post2" class="input is-rounded" placeholder="닉네임" style="width: 50%"></p>
                                     <input id="input-post" class="input is-rounded" placeholder="무슨 생각을 하고 계신가요?"></p>
                             </div>
                         </div>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
                         <div class="level-right">
                             <div class="level-item">
                                 <a class="button is-sparta" id="posting" onclick="post()">포스팅하기</a>
