@@ -15,19 +15,29 @@ SECRET_KEY = ''
 
 from pymongo import MongoClient
 
-client = MongoClient('자기몽고디비주소')
+client = MongoClient('자기 몽고디비 주소')
 db = client.dbsparta
 
+YEARS = [
+        {
+            'year': 2000
+        },
+        {
+            'year': 2010
+        },
+        {
+            'year': 2020
+        }
+    ]
 
 #  메인 페이지
 @app.route('/')
 def home():
-    return render_template('main.html')
+    return render_template('main.html', years=YEARS)
 
 @app.route('/login')
 def login():
-    return render_template('login.html')
-
+    return render_template('login.html', years=YEARS)
 
 @app.route("/music", methods=["GET"])
 def music_get01():
