@@ -65,30 +65,14 @@
             <p>그 시절 우리가 좋아했던 음악</p>
         </div>
         <ul>
+            {% for year in years %}
             <li>
-                <div onclick="show_music_all()">
-                    <span class="icon"><i class="fa fa-list"></i></span>
-                    <span class="item">전체보기</span>
-                </div>
-            </li>
-            <li>
-                <div onclick='show_music_2000()'>
+                <div onclick='show_music_{{ year['year'] }}()'>
                     <span class="icon"><i class="fa fa-headphones"></i></span>
-                    <span class="item">2000</span>
+                    <span class="item">{{ year['year'] }}</span>
                 </div>
             </li>
-            <li>
-                <div onclick='show_music_2010()'>
-                    <span class="icon"><i class="fa fa-headphones"></i></span>
-                    <span class="item">2010</span>
-                </div>
-            </li>
-            <li>
-                <div onclick='show_music_2020()'>
-                    <span class="icon"><i class="fa fa-music"></i></span>
-                    <span class="item">2020</span>
-                </div>
-            </li>
+            {% endfor %}
         </ul>
     </div>
 </div>
@@ -300,7 +284,7 @@
                             </div>
                             <div class="level-item">
                                 <a class="button is-sparta is-outlined"
-                                   onclick='$("#modal-post").removeClass("is-active")'>취소</a>
+                                   data-bs-dismiss="modal">취소</a>
                             </div>
                         </div>
                     </article>
@@ -314,11 +298,6 @@
                     <article class="media">
                         <div class="media-content">
                             <div class="content">
-                                <p>
-                                    <strong>홍길동</strong> <small>@username</small> <small>10분 전</small>
-                                    <br>
-                                    글을 적는 칸
-                                </p>
                             </div>
                             <!--                            <nav class="level is-mobile">-->
                             <!--                                <div class="level-left">-->
