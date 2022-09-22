@@ -40,6 +40,10 @@
             show_music_all()
             show_post()
         });
+
+        function warning() {
+            alert("우리 힘들었어 추억은 로그인 후에~")
+        }
     </script>
 
     <title>TimeMusic</title>
@@ -63,7 +67,7 @@
             <h2>타임뮤직</h2>
             <p>그 시절 우리가 좋아했던 음악</p>
         </div>
-        <ul>
+        <ul class="sidebar-list">
             <li>
                 <div onclick="show_music_all()">
                     <span class="icon"><i class="fa fa-list"></i></span>
@@ -71,13 +75,20 @@
                 </div>
             </li>
             {% for year in years %}
+                <li>
+                    <div onclick='show_music_{{ year['year'] }}()'>
+                        <span class="icon"><i class="fa fa-headphones"></i></span>
+                        <span class="item">{{ year['year'] }}</span>
+                    </div>
+                </li>
+            {% endfor %}
             <li>
-                <div onclick='show_music_{{ year['year'] }}()'>
-                    <span class="icon"><i class="fa fa-headphones"></i></span>
-                    <span class="item">{{ year['year'] }}</span>
+                <div onclick="warning()">
+                    <span class="icon"><i class="fa-solid fa-radio"></i></span>
+                    <span class="item">추억 한마디</span>
                 </div>
             </li>
-            {% endfor %}
+
         </ul>
     </div>
 </div>
@@ -89,7 +100,6 @@
             <th scope="col">#</th>
             <th scope="col">제목</th>
             <th scope="col">가수</th>
-            <th scope="col">댓글</th>
             <th scope="col">좋아요</th>
         </tr>
         </thead>
