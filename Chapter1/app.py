@@ -15,7 +15,7 @@ SECRET_KEY = ''
 
 from pymongo import MongoClient
 
-client = MongoClient('자기 몽고 디비 주소')
+client = MongoClient('자기 몽고디비 주소')
 db = client.dbsparta
 
 YEARS = [
@@ -134,7 +134,7 @@ def sign_in():
          'id': username_receive,
          'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
         }
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode()
 
         return jsonify({'result': 'success', 'token': token})
     # 찾지 못하면
