@@ -19,7 +19,7 @@ function show_music_all() {
                             <td>${rank}</td>
                             <td>${title}</td>
                             <td>${artist}</td>
-                            <td><i class="fa-regular fa-heart"></i></td>
+                            <td><i class="fa-solid fa-heart"></i></td>
                         </tr>`
                 } else {
                     temp_html = `<tr>
@@ -52,7 +52,7 @@ function show_music_all() {
                             <td>${rank}</td>
                             <td>${title}</td>
                             <td>${artist}</td>
-                            <td><i class="fa-regular fa-heart"></i></td>
+                            <td><i class="fa-solid fa-heart"></i></td>
                         </tr>`
                 } else {
                     temp_html = `<tr>
@@ -84,7 +84,7 @@ function show_music_all() {
                             <td>${rank}</td>
                             <td>${title}</td>
                             <td>${artist}</td>
-                            <td><i class="fa-regular fa-heart"></i></td>
+                            <td><i class="fa-solid fa-heart"></i></td>
                         </tr>`
                 } else {
                     temp_html = `<tr>
