@@ -19,7 +19,6 @@ function show_music_all() {
                             <td>${rank}</td>
                             <td>${title}</td>
                             <td>${artist}</td>
-                            <td><button id="comment-button" type="button" class="btn btn-primary">댓글버튼</button>👈</td>
                             <td><i class="fa-regular fa-heart"></i></td>
                         </tr>`
                 } else {
@@ -27,7 +26,6 @@ function show_music_all() {
                             <td>${rank}</td>
                             <td>${title}</td>
                             <td>${artist}</td>
-                            <td><button id="comment-button" type="button" class="btn btn-primary">댓글버튼</button>👈</td>
                             <td><i class="fa-solid fa-heart"></i></td>
                         </tr>`
                 }
@@ -54,7 +52,6 @@ function show_music_all() {
                             <td>${rank}</td>
                             <td>${title}</td>
                             <td>${artist}</td>
-                            <td><button id="comment-button" type="button" class="btn btn-primary">댓글버튼</button>👈</td>
                             <td><i class="fa-regular fa-heart"></i></td>
                         </tr>`
                 } else {
@@ -62,7 +59,6 @@ function show_music_all() {
                             <td>${rank}</td>
                             <td>${title}</td>
                             <td>${artist}</td>
-                            <td><button oid="comment-button" type="button" class="btn btn-primary">댓글버튼</button>👈</td>
                             <td><i class="fa-solid fa-heart"></i></td>
                         </tr>`
                 }
@@ -88,7 +84,6 @@ function show_music_all() {
                             <td>${rank}</td>
                             <td>${title}</td>
                             <td>${artist}</td>
-                            <td><button id="comment-button" type="button" class="btn btn-primary">댓글버튼</button>👈</td>
                             <td><i class="fa-regular fa-heart"></i></td>
                         </tr>`
                 } else {
@@ -96,7 +91,6 @@ function show_music_all() {
                             <td>${rank}</td>
                             <td>${title}</td>
                             <td>${artist}</td>
-                            <td><button id="comment-button" type="button" class="btn btn-primary">댓글버튼</button>👈</td>
                             <td><i class="fa-solid fa-heart"></i></td>
                         </tr>`
                 }
@@ -127,7 +121,6 @@ function show_music_2000() {
                             <td>${rank}</td>
                             <td>${title}</td>
                             <td>${artist}</td>
-                            <td><button id="comment-button" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">댓글버튼</button>👈</td>
                             <td><i onclick="genie_2000_like(${num})" class="fa-regular fa-heart"></i></td>
                         </tr>`
                 } else {
@@ -135,7 +128,6 @@ function show_music_2000() {
                             <td>${rank}</td>
                             <td>${title}</td>
                             <td>${artist}</td>
-                            <td><button id="comment-button" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">댓글버튼</button>👈</td>
                             <td><i onclick="genie_2000_dislike(${num})" class="fa-solid fa-heart"></i></td>
                         </tr>`
                 }
@@ -166,7 +158,6 @@ function show_music_2010() {
                             <td>${rank}</td>
                             <td>${title}</td>
                             <td>${artist}</td>
-                            <td><button id="comment-button" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">댓글버튼</button>👈</td>
                             <td><i onclick="genie_2010_like(${num})" class="fa-regular fa-heart"></i></td>
                         </tr>`
                 } else {
@@ -174,7 +165,6 @@ function show_music_2010() {
                             <td>${rank}</td>
                             <td>${title}</td>
                             <td>${artist}</td>
-                            <td><button id="comment-button" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">댓글버튼</button>👈</td>
                             <td><i onclick="genie_2010_dislike(${num})" class="fa-solid fa-heart"></i></td>
                         </tr>`
                 }
@@ -205,7 +195,6 @@ function show_music_2020() {
                             <td>${rank}</td>
                             <td>${title}</td>
                             <td>${artist}</td>
-                            <td><button id="comment-button" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">댓글버튼</button>👈</td>
                             <td><i onclick="genie_2020_like(${num})" class="fa-regular fa-heart"></i></td>
                         </tr>`
                 } else {
@@ -213,7 +202,6 @@ function show_music_2020() {
                             <td>${rank}</td>
                             <td>${title}</td>
                             <td>${artist}</td>
-                            <td><button id="comment-button" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">댓글버튼</button>👈</td>
                             <td><i onclick="genie_2020_dislike(${num})" class="fa-solid fa-heart"></i></td>
                         </tr>`
                 }
@@ -293,42 +281,49 @@ function genie_2020_dislike(num) {
 
 <!-- 포스트 입력 -->
 
+        <!-- 포스트 입력 -->
+
         function post() {
+            let nickname = $('#input-post2').val()
             let post = $('#input-post').val()
             $.ajax({
                 type: 'POST',
                 url: '/posting',
-                data: {comment_give: post},
+                data: {comment_give: post, nickname_give: nickname},
                 success: function (response) {
-                    alert(response['msg'])
+                    if (post == '') {
+                        alert("포스트를 입력해주세요")
+                    } else if (nickname == '') {
+                        alert("닉네임을 입력해주세요")
+                    } else {
+                        alert(response['msg'])
                     window.location.reload()
+                    }
+
                 }
             });
         }
 
         function show_post() {
-            console.log('넌 타ㅣ니?');
             $.ajax({
                 type: 'GET',
                 url: '/comment',
                 data: {},
                 success: function (response) {
-                    console.log(response);
-
-                    let length = response['comments'].length;
-
+                    // let length = response['comments'].length;
                     let rows = response['comments'];
                     console.log(rows);
-
-                    for (var i = 0; i < length; i++) {
+                    for (let i = 0; i < rows.length; i++) {
+                        let nickname = rows[i]['nickname']
+                        let comment = rows[i]['comment']
                         let temp_html = `<div class="box" id="comment-card">
                                             <article class="media">
                                                 <div class="media-content">
                                                     <div class="content">
                                                         <p>
-                                                            <strong>홍길동</strong> <small>@username</small> <small>10분 전</small>
+                                                            <strong>${nickname}</strong>
                                                             <br>
-                                                            ${rows[i]['comment']}
+                                                            <p>${comment}</p>
                                                         </p>
                                                     </div>
                                                 </div>
