@@ -1,0 +1,17 @@
+{
+  "name": "chapter3_merchandise",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "expree": "^2.0.3",
+    "express": "^4.18.1",
+    "mongoose": "^6.6.2"
+  }
+}
